@@ -27,7 +27,7 @@ function calculateDiscount(cartTotal, isMember) {
   if (isMember) {
     return totalDiscount.toString();
   } else {
-    return 'No discount is applied';
+    return cartTotal.toString();
   }
 }
 app.get('/membership-discount', (req, res) => {
