@@ -24,7 +24,6 @@ app.get('/cart-total', (req, res) => {
 // Endpoint 2 : Apply a discount based on membership status
 function calculateDiscount(cartTotal, isMember) {
   let totalDiscount = cartTotal * (1 - 10 / 100);
-  let status;
   if (isMember) {
     return totalDiscount.toString();
   } else {
