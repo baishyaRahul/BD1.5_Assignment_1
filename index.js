@@ -11,7 +11,7 @@ app.use(cors());
 
 //Endpoint 1: Calculate the total price of items in the cart
 function calculateCartValue(newItemPrice, cartTotal) {
-  let totalValue = newItemPrice * cartTotal;
+  let totalValue = newItemPrice + cartTotal;
   return totalValue.toString();
 }
 app.get('/cart-total', (req, res) => {
