@@ -9,6 +9,11 @@ app.use(express.static('static'));
 
 app.use(cors());
 
+//Server-side values
+let taxRate = 5;
+let discountPercentage = 10;
+let loyaltyRate = 2;
+
 //Endpoint 1: Calculate the total price of items in the cart
 function calculateCartValue(newItemPrice, cartTotal) {
   let item1 = newItemPrice;
@@ -28,23 +33,24 @@ app.get('/cart-total', (req, res) => {
 
 // Endpoint 2 : Apply a discount based on membership status
 function calculateDiscount(cartTotal, isMember) {
-  let totalDiscount = cartTotal * (1 - 10 / 100);
+  let totalDiscount = cartTotal * (1 - discountPercentage / 100);
+  let status;
   if (isMember) {
-    return totalDiscount;
+    return totalDiscount.toString();
   } else {
-    return cartTotal;
+    return 'No discount is applied';
   }
 }
 app.get('/membership-discount', (req, res) => {
   let cartTotal = parseFloat(req.query.cartTotal);
   let isMember = req.query.isMember === 'true';
 
-  res.send(calculateDiscount(cartTotal, isMember).toString());
+  res.send(calculateDiscount(cartTotal, isMember));
 });
 
 // Endpoint 3 : Calculate tax on the cart total
 function calculateTax(cartTotal) {
-  let totalTaxAmount = cartTotal * (1 - 95 / 100);
+  let totalTaxAmount = cartTotal * (taxRate / 100);
   return totalTaxAmount.toString();
 }
 app.get('/calculate-tax', (req, res) => {
@@ -81,7 +87,7 @@ app.get('/shipping-cost', (req, res) => {
 
 // Endpoint 6 : Calculate loyalty points earned from a purchase
 function calculateLoyaltyPoints(purchaseAmount) {
-  let loyaltyPoints = purchaseAmount * (1 + (100/100))
+  let loyaltyPoints = purchaseAmount * loyaltyRate;
   return loyaltyPoints;
 }
 app.get('/loyalty-points', (req, res) => {
